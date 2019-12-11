@@ -13,11 +13,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-int fd;														// File descrition
+int fd;											// File descrition
 char *fileName = "/dev/i2c-1";								// Name of the port we will be using
-int  address = 0x58;										// Address of the SRF08 shifted right 1 bit
+int  address = 0x58;									// Address of IR Sensor
 unsigned char data_buf[16];
-unsigned char buf[16];											// Buffer for data being read/ written on the i2c bus
+unsigned char buf[16];									// Buffer for data being read/written on the i2c bus
 int Ix[4];
 int Iy[4];
 int s;
@@ -25,10 +25,10 @@ int val[0];
 
 void i2c_camera_settings(){
 	
-	int fd;														// File descrition
-	char *fileName = "/dev/i2c-1";								// Name of the port we will be using
-	int  address = 0x58;										// Address of the SRF08 shifted right 1 bit
-	unsigned char buf[16];										// Buffer for data being read/ written on the i2c bus
+	int fd;										// File descrition
+	char *fileName = "/dev/i2c-1";							// Name of the port we will be using
+	int  address = 0x58;								// Address of the i2c IR Sensor
+	unsigned char buf[16];								// Buffer for data being read/ written on the i2c bus
 
 
 	if ((fd = open(fileName, O_RDWR)) < 0) {					// Open port for reading and writing
@@ -49,60 +49,60 @@ void i2c_camera_settings(){
 
 	unsigned char buffed[16];
 
-	buffed[0] = 0x30;													// Commands for performing a ranging on the SRF08
+	buffed[0] = 0x30;								
 	buffed[1] = 0x08;
-	if ((write(fd, buffed, 2)) != 2) {								// Write commands to the i2c port
+	if ((write(fd, buffed, 2)) != 2) {						// Write commands to the i2c port
 		printf("Error writing to i2c slave. Step 1\n");
 		exit(1);
 	}
 	usleep(750000);		
 	
-	buffed[0] = 0x00;													// Commands for performing a ranging on the SRF08
+	buffed[0] = 0x00;						
 	
 	buffed[1] = 0x00;
-	buffed[2] = 0x00;													// Commands for performing a ranging on the SRF08
+	buffed[2] = 0x00;								
 	buffed[3] = 0x00;
-	buffed[4] = 0x00;													// Commands for performing a ranging on the SRF08
+	buffed[4] = 0x00;							
 	buffed[5] = 0x00;
-	buffed[6] = 0x00;													// Commands for performing a ranging on the SRF08
+	buffed[6] = 0x00;										
 	buffed[7] = 0x90;
 	buffed[8] = 0x00;
 	buffed[9] = 0x41;
-	if ((write(fd, buffed, 10)) != 10) {								// Write commands to the i2c port
+	if ((write(fd, buffed, 10)) != 10) {						// Write commands to the i2c port
 		printf("Error writing to i2c slave. Step 2\n");
 		exit(1);
 	}
 	usleep(750000);	
 
-	buffed[0] = 0x1A;													// Commands for performing a ranging on the SRF08
+	buffed[0] = 0x1A;								
 	buffed[1] = 0x40;
 	buffed[2] = 0x00;
-	if ((write(fd, buffed, 3)) != 3) {								// Write commands to the i2c port
+	if ((write(fd, buffed, 3)) != 3) {						// Write commands to the i2c port
 		printf("Error writing to i2c slave. Step 3\n");
 		exit(1);
 	}
 	usleep(750000);	
 
-	buffed[0] = 0x1A;													// Commands for performing a ranging on the SRF08
+	buffed[0] = 0x1A;							
 	buffed[1] = 0x40;
 	buffed[2] = 0x00;
-	if ((write(fd, buffed, 3)) != 3) {								// Write commands to the i2c port
+	if ((write(fd, buffed, 3)) != 3) {						// Write commands to the i2c port
 		printf("Error writing to i2c slave. Step 4\n");
 		exit(1);
 	}
 	usleep(750000);	
 
-	buffed[0] = 0x33;													// Commands for performing a ranging on the SRF08
+	buffed[0] = 0x33;								
 	buffed[1] = 0x33;
-	if ((write(fd, buffed, 2)) != 2) {								// Write commands to the i2c port
+	if ((write(fd, buffed, 2)) != 2) {						// Write commands to the i2c port
 		printf("Error writing to i2c slave. Step 5\n");
 		exit(1);
 	}
 	usleep(750000);
 
-	buffed[0] = 0x30;													// Commands for performing a ranging on the SRF08
+	buffed[0] = 0x30;								
 	buffed[1] = 0x08;
-	if ((write(fd, buffed, 2)) != 2) {								// Write commands to the i2c port
+	if ((write(fd, buffed, 2)) != 2) {						// Write commands to the i2c port
 		printf("Error writing to i2c slave. Step 6\n");
 		exit(1);
 	}
@@ -121,12 +121,12 @@ int main(int argc, char **argv)
 	//printf("Sleeping");
 	usleep(750000);
 
-	if ((fd = open(fileName, O_RDWR)) < 0) {						// Open port for reading and writing
+	if ((fd = open(fileName, O_RDWR)) < 0) {					// Open port for reading and writing
 		printf("Failed to open i2c port\n");
 		exit(1);
 	}
 	
-	if (ioctl(fd, I2C_SLAVE, address) < 0) {						// Set the port options and set the address of the device we wish to speak to
+	if (ioctl(fd, I2C_SLAVE, address) < 0) {					// Set the port options and set the address of the device we wish to speak to
 		printf("Unable to get bus access to talk to slave\n");
 		exit(1);
 	}
@@ -138,14 +138,14 @@ int main(int argc, char **argv)
 
 	int inf;
 	for (inf=0;inf=10;inf=inf+1){
-		buf[0] = 0x36;												// This is the register we wish to read from			
+		buf[0] = 0x36;								// This is the register we wish to read from			
 												
-		if ((write(fd, buf, 1)) != 1) {								// Send register to read from
+		if ((write(fd, buf, 1)) != 1) {						// Send register to read from
 			printf("Error writing to i2c slave. 0x36. Step 7\n");
 			exit(1);
 		}
 	
-		if (read(fd, data_buf, 16) != 16) {									// Read back data into buf[]
+		if (read(fd, data_buf, 16) != 16) {					// Read back data into buf[]
 			printf("Unable to read from slave. Can't get 16 bytes\n");
 			exit(1);
 		}
