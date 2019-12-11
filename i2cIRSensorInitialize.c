@@ -152,12 +152,12 @@ int main(int argc, char **argv)
 		else {
 			
 			Ix[0] = data_buf[1];
-        	Iy[0] = data_buf[2];
-        	s = data_buf[3];
-        	//Ix[0] += (s & 0x30) <<4;
-        	Ix[0] = data_buf[1] | ((data_buf[3] >> 4) & 0x03) << 8;
-        	Iy[0] = data_buf[2] | ((data_buf[3] >> 6) & 0x03) << 8;
-        	//Ix[0] = Ix[0] / test;
+        		Iy[0] = data_buf[2];
+        		s = data_buf[3];
+        		//Ix[0] += (s & 0x30) <<4;
+        		Ix[0] = data_buf[1] | ((data_buf[3] >> 4) & 0x03) << 8;
+        		Iy[0] = data_buf[2] | ((data_buf[3] >> 6) & 0x03) << 8;
+        		//Ix[0] = Ix[0] / test;
 
 			Ix[1] = data_buf[4];
 			Iy[1] = data_buf[5];
